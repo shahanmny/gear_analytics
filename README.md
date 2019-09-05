@@ -2,7 +2,7 @@
 Find the Number of Teeth on a Gear | More features will be added in the Future
 
 # Prerequisites
-Libraries to install:
+Libraries to install:<br/>
   pip install numpy
   pip install opencv-python
   pip install PySimpleGUI
