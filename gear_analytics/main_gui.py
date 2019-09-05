@@ -12,21 +12,24 @@ class gui:
         self.cap = None
     
     #looks through each device index to find a camera
-    def find_cam(self):
-            working_device = 0
-            
-            # for index in range(100):
-            #     self.cap = cv2.VideoCapture(index)
-            #     ret, frame = self.cap.read()
+    def find_cam(self):            
+            for index in range(100):
                 
-            #     if self.cap.isOpened() and ret:
-            #         working_device = index
+                #index 1 usually does not work
+                if index == 1:
+                    continue
                 
-            #     self.cap.release() 
+                self.cap = cv2.VideoCapture(index)
+                ret, frame = self.cap.read()
+                
+                if self.cap.isOpened() and ret:
+                    working_device = index
+                
+                self.cap.release() 
             
-            # if working_device == None:
-            #     print('No Camera Found')
-            #     exit()
+            if working_device == None:
+                print('No Camera Found')
+                exit()
             
             self.cap = cv2.VideoCapture(working_device)
     
@@ -46,13 +49,13 @@ class gui:
         control_panel = [[sg.Button('', key = 'setting', image_filename='imgs/setting_icon.png', pad=((100, 0), 0))],
                [sg.Slider(range=(0, 255), key='thresh_slider', orientation='h', size=(13, 20), default_value=default_thresh, visible=False)],
                [sg.Text('Teeth# None', key='result', font=font_size, visible=False)],
-               [sg.Button('Capture', key='first_button', size=button_size, font=font_size, button_color=color, pad=(0, (35, 0)))],
+               [sg.Button('Capture', key='first_button', size=button_size, font=font_size, button_color=color, pad=(0, (25, 0)))],
                [sg.Button('Black/White', key='second_button', size=button_size, font=font_size, button_color=color, pad=(0, (10, 0)))]]
         
         layout = [[sg.Image(filename='', key='display', pad=(25, 0))] +
                   [sg.Column(control_panel)]]
 
-        window = sg.Window('Gear Analytics', layout, location=(200,100))
+        window = sg.Window('Gear Analytics', layout, location=(200,100))    
         
         #called before while loop so gui pops up with everthing inside without the need to load
         ret, frame = self.cap.read()    
@@ -60,7 +63,7 @@ class gui:
         #whether video needs to be converted to black/white            
         convert = False
         #whether to show the results or not
-        result = False
+        result = False 
 
         while True:
             event, values = window.Read(timeout=20)
@@ -87,9 +90,6 @@ class gui:
                 window.FindElement('result').Update(teeth) 
             
             elif event == 'second_button':
-                window.FindElement('thresh_slider').Update(visible=False)
-                window.FindElement('result').Update(visible=False)             
-                window.FindElement('first_button').Update(visible=True)
                 
                 #if statement is to make sure convert stays false after user presses back from the result screen
                 if result == True:
@@ -102,8 +102,12 @@ class gui:
                 if convert == True:
                     window.FindElement('thresh_slider').Update(visible=True) 
                 else:
-                    window.FindElement('second_button').Update('Black/White') 
+                    window.FindElement('result').Update(visible=False) 
                     window.FindElement('thresh_slider').Update(visible=False)                                       
+                    window.FindElement('second_button').Update('Black/White') 
+                
+                #in both cases there should always be a first button
+                window.FindElement('first_button').Update(visible=True)
             
             #if window is turned off end the program
             elif event == None or event == 'Exit':
