@@ -26,6 +26,8 @@ class settingsGui:
                     new_default_thresh = 150
                 if new_parameter == '':
                     new_parameter = 0.008
+                
                 window.Close()
+                
                 return int(new_default_thresh), float(new_parameter)
     
