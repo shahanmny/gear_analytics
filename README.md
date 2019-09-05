@@ -19,7 +19,7 @@ Run in the gear_analytics folder:
   * python -m gear_analytics
 
 Here is what should show up: <br>
-![picture](https://raw.githubusercontent.com/Users/shaha/Desktop/home.PNG)
+![home](https://user-images.githubusercontent.com/31074545/64391182-e23c3d00-d015-11e9-97d7-48408a396325.PNG)
 
 The Program automatically will find the camera being used (may not work with bluetooth)
 
