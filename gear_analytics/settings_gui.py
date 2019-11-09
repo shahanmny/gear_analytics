@@ -23,7 +23,7 @@ class settingsGui:
                 new_parameter = values['parameter']
                       
                 if new_default_thresh == '':
-                    new_default_thresh = 150
+                    new_default_thresh = 230
                 if new_parameter == '':
                     new_parameter = 0.008
                 
