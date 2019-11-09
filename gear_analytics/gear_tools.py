@@ -59,5 +59,9 @@ class tools:
                     second_coordinate_y = point[0][1]
                       
             looped+=1 
-             
-        self.diameter = str(round(math.sqrt((first_coordinate_x - second_coordinate_x)**2 + (first_coordinate_y - second_coordinate_y)**2), 2))     
+
+        frame_width = 5
+        frame_width_pxl = self.img.shape[1]
+        diameter_pxl = math.sqrt((first_coordinate_x - second_coordinate_x)**2 + (first_coordinate_y - second_coordinate_y)**2)     
+
+        self.diameter = str(round((frame_width * diameter_pxl) / frame_width_pxl, 2))

@@ -113,7 +113,7 @@ class gui:
                 gear_result.find_products()
                 
                 window.FindElement('teeth').Update('Teeth# ' + gear_result.num_of_teeth) 
-                window.FindElement('diameter').Update('Pixels# ' + gear_result.diameter)
+                window.FindElement('diameter').Update('Diameter: ' + gear_result.diameter + " in")
             
             #if window is turned off end the program
             elif event == None or event == 'Exit':
