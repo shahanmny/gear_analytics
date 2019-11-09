@@ -15,8 +15,8 @@ class gui:
     def find_cam(self):            
             for index in range(100):
                 
-                #index 1 usually does not work
-                if index == 1:
+                #index 0 is the PC/Laptop camera
+                if index == 0:
                     continue
                 
                 self.cap = cv2.VideoCapture(index)
