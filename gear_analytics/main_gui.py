@@ -12,7 +12,9 @@ class gui:
         self.cap = None
     
     #looks through each device index to find a camera
-    def find_cam(self):            
+    def find_cam(self):  
+            working_device = None
+
             for index in range(100):
                 
                 #index 0 is the PC/Laptop camera
