@@ -36,6 +36,8 @@ class gui:
             self.cap = cv2.VideoCapture(working_device)
                 
     def display_gui(self):
+        sg.theme('LightGray1')
+
         #default_threshold and parameter can be changed in the settings
         
         #threshold value which is used to classify the pixel values
@@ -44,25 +46,23 @@ class gui:
         #selection of epsilon, effects the accuracy, used in gear_tools.py
         parameter = 0.008  
         
-        button_size = (12, 2)
+        button_size = (15, 2)
         font_size = 'Helvetica 22'
         color = ('white','#bfbfbf')
         
         #GUI components
-        control_panel = [[sg.Button('', key = 'setting', image_filename='imgs/setting_icon.png', pad=((175, 0), 0))],
-                         [sg.Button('Black/White', key='first_button', size=button_size, font=font_size, button_color=color, pad=(0, (10, 0)))],
-                         [sg.Button('', size=(12, 1), button_color=('gray', '#EFEFEF'), pad=(0, (0, 0)), border_width=0)],
-                         [sg.Button('Capture', key='second_button', size=button_size, font=font_size, button_color=color, pad=(0, (0, 0)))],
-                         [sg.Slider(range=(0, 255), key='thresh_slider', orientation='h', size=(19, 20), default_value=default_thresh, visible=False)],
-                         [sg.Text('Teeth# None', key='teeth', font=font_size, visible=False)],
-                         [sg.Text('Number of Pixels# None', key='diameter', font=font_size, visible=False)]]
-
+        control_panel = [[sg.Button('', key = 'setting', image_filename='imgs/setting_icon.png', pad=((180, 0), 0))],
+                         [sg.Button('Gray Scale', key='first_button', size=button_size, font=font_size, button_color=color, pad=(0, (10, 0)))],
+                         [sg.Button('', size=(12, 1), button_color=('gray', '#EFEFEF'), pad=(0, 0), border_width=0)],
+                         [sg.Button('Capture', key='second_button', size=button_size, font=font_size, button_color=color, pad=(0, 0))],
+                         [sg.Slider(range=(0, 255), key='thresh_slider', orientation='h', trough_color='#bfbfbf', size=(29, 30), default_value=default_thresh, pad=(0, (10, 0)), disabled=True)],
+                         [sg.Multiline('Teeth# None\nDiameter# None', key='output', font=font_size, size=(16, 2), no_scrollbar=True, pad=(0, (15, 0)), disabled=True)]]
         #GUI layout
-        layout = [[sg.Image(filename='', key='display', pad=(25, 0))] +
-                  [sg.Column(control_panel)]]
+        layout = [[sg.Image(filename='', key='display', background_color='gray')] +
+                  [sg.Column(control_panel, vertical_alignment='top', element_justification='right')]]
 
         #GUI window
-        window = sg.Window('Gear Analytics', layout, background_color = '#EFEFEF', location=(200,100))    
+        window = sg.Window('Gear Analytics', layout, location=(200,100))    
         
         #called before while loop so gui pops up with everthing inside without the need to load
         ret, frame = self.cap.read()    
@@ -90,32 +90,22 @@ class gui:
                     page = 'home_page'
 
                 if page == 'home_page':
-                    window.FindElement('second_button').Update(visible=True) 
-
                     window.FindElement('first_button').Update('Gray Scale')
-
-                    window.FindElement('thresh_slider').Update(visible=False)                                       
-                    window.FindElement('teeth').Update(visible=False) 
-                    window.FindElement('diameter').Update(visible=False) 
+                    window.FindElement('thresh_slider').Update(disabled=True)                                       
 
                 elif page == 'gray_scale_page':
-                    window.FindElement('thresh_slider').Update(visible=True)                                       
-
                     window.FindElement('first_button').Update('Back')
+                    window.FindElement('thresh_slider').Update(disabled=False) 
 
-                    window.FindElement('teeth').Update(visible=False) 
-                    window.FindElement('diameter').Update(visible=False) 
+                window.FindElement('second_button').Update(disabled=False) 
+                window.FindElement('output').Update('Teeth# None\nDiameter# None')                                      
             
             elif event == 'second_button':
                 page = 'result_page'
                 
-                window.FindElement('teeth').Update(visible=True) 
-                window.FindElement('diameter').Update(visible=True) 
-                
                 window.FindElement('first_button').Update('Back') 
-
-                window.FindElement('thresh_slider').Update(visible=False)
-                window.FindElement('second_button').Update(visible=False) 
+                window.FindElement('thresh_slider').Update(disabled=True)
+                window.FindElement('second_button').Update(disabled=True) 
                 
                 #run the frame through the gear tools class and gets the results
                 gear_result = gear(frame, values['thresh_slider'], parameter)   
@@ -123,8 +113,8 @@ class gui:
                 gear_result.find_contour()
                 gear_result.find_products()
                 
-                window.FindElement('teeth').Update('Teeth# ' + gear_result.num_of_teeth) 
-                window.FindElement('diameter').Update('Diameter: ' + gear_result.diameter + " in")
+                output = ('Teeth# {}\nDiameter# {} in').format(gear_result.num_of_teeth, gear_result.diameter)
+                window.FindElement('output').Update(output)
                 
                 imgbytes=cv2.imencode('.png', gear_result.img)[1].tobytes() 
                 window.FindElement('display').Update(data=imgbytes)   
