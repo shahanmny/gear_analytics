@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
 
-class settingsGui:
+class SettingsGui:
     def settings(default_thresh, parameter):
         layout = [[sg.Text('Default Thresh')] +
                   [sg.InputText(default_thresh, key='default_thresh')],

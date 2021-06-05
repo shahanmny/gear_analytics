@@ -1,9 +1,9 @@
 import PySimpleGUI as sg
 import cv2
-from gear_analytics.gear import gear
-from gear_analytics.settings_gui import settingsGui
+from gear_analytics.gear import Gear
+from gear_analytics.settings_gui import SettingsGui
 
-class gui:
+class Gui:
     def __init__(self, second_camera):
         self.cap = None
         self.second_camera = second_camera
@@ -75,7 +75,7 @@ class gui:
             #setting button was pressed
             if event == 'setting':
                 #create the settings window
-                default_thresh, parameter = settingsGui.settings(default_thresh, parameter)
+                default_thresh, parameter = SettingsGui.settings(default_thresh, parameter)
                 window.FindElement('thresh_slider').Update(default_thresh) 
             
             #first button was pressed
@@ -111,7 +111,7 @@ class gui:
                 window.FindElement('second_button').Update(disabled=True) 
                 
                 #run the frame through the gear class and gets the results
-                gear_result = gear(frame, values['thresh_slider'], parameter)   
+                gear_result = Gear(frame, values['thresh_slider'], parameter)   
                 gear_result.color_to_thresh()
                 gear_result.find_contour()
                 gear_result.find_products()
@@ -135,7 +135,7 @@ class gui:
                 window.FindElement('display').Update(data=imgbytes)   
             #update the image on the GUI with the latest frame which is converted to the gray scale
             elif page == 'gray_scale_page':                    
-                convert = gear(frame, values['thresh_slider'], parameter)
+                convert = Gear(frame, values['thresh_slider'], parameter)
                 convert.color_to_thresh()
 
                 imgbytes=cv2.imencode('.png', convert.threshold)[1].tobytes() 
