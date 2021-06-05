@@ -5,7 +5,7 @@ import math
 #prints the whole entire np array 
 np.set_printoptions(threshold=np.inf)  
 
-class tools: 
+class gear: 
     def __init__(self, img, thresh, parameter): 
         self.img = img
         self.thresh = thresh
