@@ -133,7 +133,7 @@ class gui:
             if page == 'home_page':
                 imgbytes=cv2.imencode('.png', frame)[1].tobytes() 
                 window.FindElement('display').Update(data=imgbytes)   
-            #update the image on the GUI with the latest frame that is converted to the gray scale
+            #update the image on the GUI with the latest frame which is converted to the gray scale
             elif page == 'gray_scale_page':                    
                 convert = gear(frame, values['thresh_slider'], parameter)
                 convert.color_to_thresh()
