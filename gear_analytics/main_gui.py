@@ -1,9 +1,5 @@
-#gui library
 import PySimpleGUI as sg
-
-#computer vision library
 import cv2
-
 from gear_analytics.gear import gear
 from gear_analytics.settings_gui import settingsGui
 
@@ -40,7 +36,7 @@ class gui:
 
         #default_threshold and parameter can be changed in the settings
         
-        #threshold value which is used to classify the pixel values
+        #thresh value which is used to classify the pixel values
         #must be between 0 and 255
         default_thresh = 230
         #selection of epsilon, effects the accuracy, used in gear_tools.py
@@ -67,28 +63,31 @@ class gui:
         #called before while loop so gui pops up with everthing inside without the need to load
         ret, frame = self.cap.read()    
         
+        #the current page that the user is on
         page = 'home_page'
-        #if video needs to be converted to black/white            
-        convert = False
-        #to show the results or not
-        result = False 
 
         while True:
+            #Get the latest event from the GUI and the latest frame captured from the camera
             event, values = window.Read(timeout=20)
             ret, frame = self.cap.read()
 
-            #open setting window
+            #handle the incoming events from the GUI
+            #setting button was pressed
             if event == 'setting':
+                #create the settings window
                 default_thresh, parameter = settingsGui.settings(default_thresh, parameter)
                 window.FindElement('thresh_slider').Update(default_thresh) 
             
+            #first button was pressed
             elif event == 'first_button':
-                #if statement is to make sure convert stays false after user presses back from the result screen
+                #if user is on the home page that means they want to go to the gray scale page
                 if page == 'home_page':
                     page = 'gray_scale_page'
+                #otherwise just return the user to the home page
                 else:
                     page = 'home_page'
 
+                #based off the page disable and update the components accordingly
                 if page == 'home_page':
                     window.FindElement('first_button').Update('Gray Scale')
                     window.FindElement('thresh_slider').Update(disabled=True)                                       
@@ -97,25 +96,31 @@ class gui:
                     window.FindElement('first_button').Update('Back')
                     window.FindElement('thresh_slider').Update(disabled=False) 
 
+                #updates that are needed for both the home and gray scale pages
                 window.FindElement('second_button').Update(disabled=False) 
                 window.FindElement('output').Update('Teeth# None\nDiameter# None')                                      
             
+            #second button was pressed
             elif event == 'second_button':
+                #user wants to get the results, hence the page is the result page
                 page = 'result_page'
                 
+                #disable and update the components accordingly
                 window.FindElement('first_button').Update('Back') 
                 window.FindElement('thresh_slider').Update(disabled=True)
                 window.FindElement('second_button').Update(disabled=True) 
                 
-                #run the frame through the gear tools class and gets the results
+                #run the frame through the gear class and gets the results
                 gear_result = gear(frame, values['thresh_slider'], parameter)   
                 gear_result.color_to_thresh()
                 gear_result.find_contour()
                 gear_result.find_products()
                 
+                #write out the output to the GUI
                 output = ('Teeth# {}\nDiameter# {} in').format(gear_result.num_of_teeth, gear_result.diameter)
                 window.FindElement('output').Update(output)
                 
+                #update the image on the GUI to hold the frame that was captured
                 imgbytes=cv2.imencode('.png', gear_result.img)[1].tobytes() 
                 window.FindElement('display').Update(data=imgbytes)   
             
@@ -124,10 +129,11 @@ class gui:
                 window.Close()
                 exit()  
             
+            #update the image on the GUI with the latest frame that was captured
             if page == 'home_page':
                 imgbytes=cv2.imencode('.png', frame)[1].tobytes() 
                 window.FindElement('display').Update(data=imgbytes)   
-
+            #update the image on the GUI with the latest frame that is converted to the gray scale
             elif page == 'gray_scale_page':                    
                 convert = gear(frame, values['thresh_slider'], parameter)
                 convert.color_to_thresh()
