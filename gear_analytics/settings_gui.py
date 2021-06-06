@@ -7,7 +7,7 @@ class SettingsGui:
                   [sg.Text('Parameter')] +
                   [sg.InputText(parameter, key='parameter')],
                   [sg.Button('Reset', button_color = ('white','#bfbfbf'))] +
-                  [sg.Button('Exit', button_color = ('white','#bfbfbf'))]]
+                  [sg.Button('Save & Exit', button_color = ('white','#bfbfbf'))]]
         
         window = sg.Window('Setting', layout, location=(300,200))
         
@@ -19,14 +19,16 @@ class SettingsGui:
                 window.FindElement('parameter').Update(parameter)
             
             elif event == None or event == 'Exit':
-                new_default_thresh = values['default_thresh']
-                new_parameter = values['parameter']
-                      
-                if new_default_thresh == '':
+                if values == None or not values['default_thresh'].strip():
                     new_default_thresh = 230
-                if new_parameter == '':
-                    new_parameter = 0.008
+                else:
+                    new_default_thresh = values['default_thresh']
                 
+                if values == None or not values['parameter'].strip():
+                    new_parameter = 0.008
+                else:
+                    new_parameter = values['parameter']
+                      
                 window.Close()
                 
                 return int(new_default_thresh), float(new_parameter)
