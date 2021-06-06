@@ -34,13 +34,15 @@ class Gui:
     def display_gui(self):
         sg.theme('LightGray1')
 
-        #default_threshold and parameter can be changed in the settings
+        #default_threshold, parameter and background size can be changed in the settings
         
         #thresh value which is used to classify the pixel values
         #must be between 0 and 255
         default_thresh = 230
         #selection of epsilon, effects the accuracy, used in gear_tools.py
         parameter = 0.008  
+        #background size is the size in inches of the background 
+        background_size = 5
         
         button_size = (15, 2)
         font_size = 'Helvetica 22'
@@ -75,7 +77,7 @@ class Gui:
             #setting button was pressed
             if event == 'setting':
                 #create the settings window
-                default_thresh, parameter = SettingsGui.settings(default_thresh, parameter)
+                default_thresh, parameter, background_size = SettingsGui.settings(default_thresh, parameter, background_size)
                 window.FindElement('thresh_slider').Update(default_thresh) 
             
             #first button was pressed
@@ -111,7 +113,7 @@ class Gui:
                 window.FindElement('second_button').Update(disabled=True) 
                 
                 #run the frame through the gear class and gets the results
-                gear_result = Gear(frame, values['thresh_slider'], parameter)   
+                gear_result = Gear(frame, values['thresh_slider'], parameter, background_size)   
                 gear_result.color_to_thresh()
                 gear_result.find_contour()
                 gear_result.find_products()
@@ -135,7 +137,7 @@ class Gui:
                 window.FindElement('display').Update(data=imgbytes)   
             #update the image on the GUI with the latest frame which is converted to the gray scale
             elif page == 'gray_scale_page':                    
-                convert = Gear(frame, values['thresh_slider'], parameter)
+                convert = Gear(frame, values['thresh_slider'], parameter, background_size)
                 convert.color_to_thresh()
 
                 imgbytes=cv2.imencode('.png', convert.threshold)[1].tobytes() 

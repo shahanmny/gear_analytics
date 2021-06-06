@@ -6,7 +6,7 @@ import math
 np.set_printoptions(threshold=np.inf)  
 
 class Gear: 
-    def __init__(self, img, thresh, parameter): 
+    def __init__(self, img, thresh, parameter, background_size): 
         self.img = img
         self.thresh = thresh
         self.threshold = None
@@ -14,6 +14,7 @@ class Gear:
         self.parameter = parameter
         self.num_of_teeth = None
         self.diameter = None
+        self.background_size = background_size
     
     def color_to_thresh(self):
         #frame has been converted to black and white needed for finding the contour
@@ -60,7 +61,7 @@ class Gear:
                       
             looped+=1 
 
-        frame_width = 5
+        frame_width = self.background_size
         frame_width_pxl = self.img.shape[1]
         diameter_pxl = math.sqrt((first_coordinate_x - second_coordinate_x)**2 + (first_coordinate_y - second_coordinate_y)**2)     
 
