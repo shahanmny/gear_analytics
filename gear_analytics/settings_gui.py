@@ -23,21 +23,23 @@ class SettingsGui:
                 window.FindElement('background_size').Update(5)
             
             elif event == None or event == 'Save & Exit':
-                if values == None or not values['default_thresh'].strip():
-                    new_default_thresh = default_thresh
-                else:
+                new_default_thresh = None
+                new_parameter = None
+                new_background_size = None
+
+                try:
+                    if values == None:
+                        raise Exception('User Exited') 
+                    
                     new_default_thresh = values['default_thresh']
-                
-                if values == None or not values['parameter'].strip():
-                    new_parameter = parameter
-                else:
                     new_parameter = values['parameter']
-                if values == None or not values['background_size'].strip():
-                    new_background_size = background_size
-                else:
                     new_background_size = values['background_size']
-                      
-                window.Close()
                 
-                return int(new_default_thresh), float(new_parameter), float(new_background_size)
-    
+                    window.Close()
+                    
+                    return int(new_default_thresh), float(new_parameter), float(new_background_size)
+                
+                except:
+                    return default_thresh, parameter, background_size
+                          
+                    
