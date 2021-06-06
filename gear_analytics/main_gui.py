@@ -47,13 +47,14 @@ class Gui:
         button_size = (15, 2)
         font_size = 'Helvetica 22'
         color = ('white','#bfbfbf')
-        
+        slider_message = "The Slider is Disabled Unless it is in Gray Scale Mode"        
+
         #GUI components
         control_panel = [[sg.Button('', key = 'setting', image_filename='imgs/setting_icon.png', pad=((180, 0), 0))],
                          [sg.Button('Gray Scale', key='first_button', size=button_size, font=font_size, button_color=color, pad=(0, (10, 0)))],
                          [sg.Button('', size=(12, 1), button_color=('gray', '#EFEFEF'), pad=(0, 0), border_width=0)],
                          [sg.Button('Capture', key='second_button', size=button_size, font=font_size, button_color=color, pad=(0, 0))],
-                         [sg.Slider(range=(0, 255), key='thresh_slider', orientation='h', trough_color='#bfbfbf', size=(29, 30), default_value=default_thresh, pad=(0, (10, 0)), disabled=True)],
+                         [sg.Slider(range=(0, 255), key='thresh_slider', orientation='h', trough_color='#bfbfbf', size=(29, 30), default_value=default_thresh, tooltip=slider_message, pad=(0, (10, 0)), disabled=True)],
                          [sg.Multiline('Teeth# None\nDiameter# None', key='output', font=font_size, size=(16, 2), no_scrollbar=True, pad=(0, (15, 0)), disabled=True)]]
         #GUI layout
         layout = [[sg.Image(filename='', key='display', background_color='gray')] +
