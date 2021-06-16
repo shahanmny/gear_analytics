@@ -1,5 +1,5 @@
 # gear_analytics
-Find the Number of Teeth on a Gear | More features will be added in the Future
+Find the Number of Teeth and the Diameter of a Gear
 
 # Prerequisites
 Libraries to install: <br>
