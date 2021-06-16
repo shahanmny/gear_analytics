@@ -28,6 +28,6 @@ Default Mode
 Normal Mode
 * Shows a video of the gear without any filters
 
-#Example of a Result
-![Result](https://user-images.githubusercontent.com/31074545/122280502-42ccff00-ceb7-11eb-84b3-fad0a79eefa0.PNG")
+# Example of a Result
+![Result](https://user-images.githubusercontent.com/31074545/122280502-42ccff00-ceb7-11eb-84b3-fad0a79eefa0.PNG)
                     
