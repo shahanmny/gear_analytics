@@ -62,7 +62,6 @@ class Gui:
         #default_threshold and background_width can be changed in the settings
         
         #thresh value which is used to classify the pixel values
-        #must be between 0 and 255
         default_thresh = 3
         #the number of times the frame will be dilated
         default_dilate = 1
