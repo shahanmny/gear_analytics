@@ -1,6 +1,9 @@
 # gear_analytics
 Find the Number of Teeth and the Diameter of a Gear
 
+# Output Example
+![Result](https://user-images.githubusercontent.com/31074545/122280502-42ccff00-ceb7-11eb-84b3-fad0a79eefa0.PNG)
+
 # Prerequisites
 Libraries to install: <br>
   * pip install numpy 
@@ -27,7 +30,3 @@ Default Mode
 * The second slider dilates the frames in order to close any gaps between the gear's edges
 Normal Mode
 * Shows a video of the gear without any filters
-
-# Example of a Result
-![Result](https://user-images.githubusercontent.com/31074545/122280502-42ccff00-ceb7-11eb-84b3-fad0a79eefa0.PNG)
-                    
