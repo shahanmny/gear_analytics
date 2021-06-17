@@ -28,5 +28,6 @@ Default Mode
 * Shows a video outlining the gear, make sure it is reading all the edges and that there are no gaps
 * The first slider effects the thresh, in other words whether a pixel should be assigned white or black
 * The second slider dilates the frames in order to close any gaps between the gear's edges
+
 Normal Mode
 * Shows a video of the gear without any filters
