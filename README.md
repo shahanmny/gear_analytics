@@ -2,7 +2,8 @@
 Find the Number of Teeth and the Diameter of a Gear
 
 # Output Example
-![Result](https://user-images.githubusercontent.com/31074545/122280502-42ccff00-ceb7-11eb-84b3-fad0a79eefa0.PNG)
+
+![Result](https://user-images.githubusercontent.com/31074545/122678099-4ca27b00-d1b3-11eb-9b40-800455fa6e87.PNG)
 
 # Prerequisites
 Libraries to install: <br>
