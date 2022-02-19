@@ -40,7 +40,6 @@ class Gear:
         self.num_of_teeth = 0
         self.diameter = None
     
-    #https://stackoverflow.com/questions/44752240/how-to-remove-shadow-from-scanned-images-using-opencv
     def remove_shadow(self):
         """Removes the shadow in the frame"""
         #Separate the RGB
